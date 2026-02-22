@@ -4,9 +4,9 @@ import logging
 
 from PyQt6.QtWidgets import QMainWindow
 
-from potentio_gui.ui.MainScrollArea import MainScrollArea
-from potentio_gui.ui.Menubar import Menubar
-from potentio_gui.ui.Potentiometrie import PotentiometrieWindow
+from chemistry_raptor_gui.ui.MainScrollArea import MainScrollArea
+from chemistry_raptor_gui.ui.Menubar import Menubar
+from chemistry_raptor_gui.ui.Potentiometrie import PotentiometrieWindow
 
 logger = logging.getLogger(__name__)
 

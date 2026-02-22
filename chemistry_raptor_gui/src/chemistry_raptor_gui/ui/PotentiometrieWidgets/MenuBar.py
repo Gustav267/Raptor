@@ -11,8 +11,8 @@ from PyQt6.QtWidgets import (
 )
 from typing import Callable
 
-from potentio_gui.ui.PotentiometrieWidgets import OptionalDatapoint
-from potentio_gui.ui.dialog.ExcelImport import ExcelImport
+from chemistry_raptor_gui.ui.PotentiometrieWidgets import OptionalDatapoint
+from chemistry_raptor_gui.ui.dialog.ExcelImport import ExcelImport
 
 
 class MenuBar(QWidget):

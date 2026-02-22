@@ -20,25 +20,26 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QMessageBox,
 )
-from black.trans import Callable
+from typing import Callable
 
-from potentio_gui.ui.Line import QVLine
-from potentio_gui.ui.PotentiometrieWidgets import OptionalDatapoint
-from potentio_gui.ui.assets import COPY_EXCEL_GIF
+from chemistry_raptor_gui.ui.Line import QVLine
+from chemistry_raptor_gui.ui.PotentiometrieWidgets import OptionalDatapoint
+from chemistry_raptor_gui.ui.assets import COPY_EXCEL_GIF
 
 
 class ExcelImport(QDialog):
     def __init__(
         self,
         on_accept: Callable[[list[OptionalDatapoint]], None],
-        parent: QWidget = None,
+        parent: QWidget | None = None,
     ):
         self.logger = logging.getLogger(__name__)
         self.on_accept = on_accept
         super().__init__(parent=parent)
 
         self.setWindowTitle("Template Erstellen")
-        self.setWindowIcon(parent.windowIcon())
+        if parent is not None:
+            self.setWindowIcon(parent.windowIcon())
 
         layout = QVBoxLayout()
         self.label = QLabel("Excel Dateien hier rein pasten (Strg + V)")

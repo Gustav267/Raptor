@@ -3,12 +3,12 @@ import logging
 import pandas as pd
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout
 
-from potentio_gui.lib.potentiometrie import create_plot
-from potentio_gui.ui.Line import QHLine, QVLine
-from potentio_gui.ui.PotentiometrieWidgets import OptionalDatapoint
-from potentio_gui.ui.PotentiometrieWidgets.DataInput import DataInput
-from potentio_gui.ui.PotentiometrieWidgets.MenuBar import MenuBar
-from potentio_gui.ui.PotentiometrieWidgets.PlotCanvas import PlotCanvas
+from chemistry_raptor import create_plot
+from chemistry_raptor_gui.ui.Line import QHLine, QVLine
+from chemistry_raptor_gui.ui.PotentiometrieWidgets import OptionalDatapoint
+from chemistry_raptor_gui.ui.PotentiometrieWidgets.DataInput import DataInput
+from chemistry_raptor_gui.ui.PotentiometrieWidgets.MenuBar import MenuBar
+from chemistry_raptor_gui.ui.PotentiometrieWidgets.PlotCanvas import PlotCanvas
 
 
 class PotentiometrieWindow(QWidget):
@@ -61,7 +61,7 @@ class PotentiometrieWindow(QWidget):
         vol_naoh = [
             x.volume for x in self.data if x.enabled #and (x.ph <= 4 or x.ph >= 10)
         ]
-        ph_wert = [x.ph for x in self.data if x.enabled #and (x.ph <= 4 or x.ph >= 10)]
+        ph_wert = [x.ph for x in self.data if x.enabled] #and (x.ph <= 4 or x.ph >= 10)]
         self.logger.debug(vol_naoh)
         self.logger.debug(ph_wert)
 

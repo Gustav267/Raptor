@@ -1,5 +1,5 @@
 [project]
-name = "potentio_gui"
+name = "chemistry-raptor"
 version = "0.1.0"
 description = ""
 authors = [{name = "MaFeLP", email = "mafelp@proton.me"}]
@@ -11,15 +11,23 @@ dependencies = [
     "numpy>=2.4.2",
     "pandas>=3.0.0",
     "pandas-stubs==3.0.0.260204",
-    "pyqt6>=6.10.2",
-    "pyxdg>=0.28",
     "scipy>=1.17.0",
     "scipy-stubs==1.17.0.2",
-    "xlwings>=0.33.20",
 ]
 
 [dependency-groups]
 dev = [
     "black>=26.1.0",
-    "pyinstaller>=6.19.0",
 ]
+
+[tool.uv.sources]
+chemistry_raptor = { workspace = true }
+chemistry_raptor_gui = { path = "chemistry_raptor_gui" }
+chemistry_raptor_excel = { path = "chemistry_raptor_excel" }
+
+[tool.uv.workspace]
+members = ["chemistry_raptor_gui", "chemistry_raptor_excel"]
+
+[build-system]
+requires = ["uv_build>=0.10.4,<0.11.0"]
+build-backend = "uv_build"

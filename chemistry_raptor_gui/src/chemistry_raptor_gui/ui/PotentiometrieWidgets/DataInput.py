@@ -10,7 +10,7 @@ from PyQt6.QtWidgets import (
     QSizePolicy,
 )
 
-from potentio_gui.ui.PotentiometrieWidgets import OptionalDatapoint
+from chemistry_raptor_gui.ui.PotentiometrieWidgets import OptionalDatapoint
 
 
 class DataInput(QTableWidget):

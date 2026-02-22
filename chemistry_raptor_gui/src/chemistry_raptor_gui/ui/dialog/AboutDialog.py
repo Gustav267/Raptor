@@ -18,7 +18,7 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
 )
 
-from potentio_gui.ui.Line import QHLine
+from chemistry_raptor_gui.ui.Line import QHLine
 
 
 class AboutDialog(QDialog):

@@ -7,7 +7,7 @@ from PyQt6.QtCore import QUrl
 from PyQt6.QtGui import QAction, QIcon, QDesktopServices
 from PyQt6.QtWidgets import QMenuBar, QApplication, QMessageBox, QMainWindow
 
-from potentio_gui.ui.dialog.AboutDialog import AboutDialog
+from chemistry_raptor_gui.ui.dialog.AboutDialog import AboutDialog
 
 logger = logging.getLogger(__name__)
 

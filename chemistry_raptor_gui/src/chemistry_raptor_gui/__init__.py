@@ -1,18 +1,33 @@
+"""The Captura Main Module
+
+This module contains the main entry point for the Captura application.
+
+Captura is a templating program, that allows you to fill out LaTeX templates
+from a predefined template and generate different kinds of LaTeX documents.
+Due to its modular design, it is easily extensible with new templates."""
+
 import logging
 import sys
 
 from PyQt6.QtWidgets import QApplication
 
-from potentio_gui.ui.MainWindow import MainWindow
+from chemistry_raptor_gui.ui.MainWindow import MainWindow
 
 # Uncomment this line on KDE to have a nicer layout/theme.
 # os.environ["QT_QPA_PLATFORMTHEME"] = "kde"
 
-from PyQt6.QtWidgets import QStyleFactory
+__version__: str = "0.1.0"
+"""The current version of the RAPTOR application."""
 
-print(QStyleFactory.keys())
+production: bool = False
+"""Indicates whether the application is running in production mode or development mode."""
 
-if __name__ == "__main__":
+environment: str = "linux"
+"""The current environment in which the application is running.
+
+This can be `linux`, `windows`, or `macos`."""
+
+def main():
     app = QApplication(sys.argv)
     # app.setStyle("Windows")
     # app.setStyle("Breeze")
