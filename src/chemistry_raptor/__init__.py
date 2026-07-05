@@ -338,3 +338,6 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
     # Tick-Farbe (Striche + Zahlen)
     ax1.tick_params(axis="both", colors=color)
     ax2.tick_params(axis="both", colors=color)
+
+    return (x_ph7,vol_nullstellen_zweiter_ableitung,aequivalenzpunkt[0])
+

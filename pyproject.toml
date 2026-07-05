@@ -29,5 +29,5 @@ chemistry_raptor_excel = { path = "chemistry_raptor_excel" }
 members = ["chemistry_raptor_gui", "chemistry_raptor_excel"]
 
 [build-system]
-requires = ["uv_build>=0.10.4,<0.11.0"]
+requires = ["uv_build>=0.11.0,<0.12.0"]
 build-backend = "uv_build"

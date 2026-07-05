@@ -114,7 +114,7 @@ requires-dist = [{ name = "xlwings", specifier = ">=0.33.20" }]
 [[package]]
 name = "chemistry-raptor-gui"
 version = "0.1.0"
-source = { virtual = "chemistry_raptor_gui" }
+source = { editable = "chemistry_raptor_gui" }
 dependencies = [
     { name = "chemistry-raptor" },
     { name = "pyqt6" },
