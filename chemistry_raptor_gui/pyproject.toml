@@ -7,7 +7,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "chemistry-raptor",
-    "pyqt6>=6.10.2",
+    "pyqt6>=6.11.0",
     "pyxdg>=0.28",
 ]
 
@@ -16,7 +16,7 @@ chemistry_raptor = "chemistry_raptor_gui:main"
 
 [dependency-groups]
 dev = [
-    "pyinstaller>=6.19.0",
+    "pyinstaller>=6.21.0",
 ]
 
 [build-system]
