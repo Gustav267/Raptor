@@ -1,0 +1,46 @@
+name: Create Draft Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Tag name for the release (e.g. v1.2.3)"
+        required: true
+      release_name:
+        description: "Release title (defaults to tag name if left empty)"
+        required: false
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Install just
+        uses: extractions/setup-just@v2
+
+      - name: Sync dependencies
+        run: just sync
+
+      - name: Build wheels
+        run: just wheel
+
+      - name: List built wheels
+        run: ls -la ./dist/
+
+      - name: Create draft release and upload wheels
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name }}
+          name: ${{ github.event.inputs.release_name || github.event.inputs.tag_name }}
+          draft: true
+          files: ./dist/*.whl
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
