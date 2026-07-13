@@ -19,7 +19,7 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
     # print(f'CTA: {cta}, i: {i}')
     # Drop all pH values strictly between 4 and 10 and their corresponding vol_naoh
     # Keep only points where pH <= 4 or pH >= 10
-    #vol_naoh, ph_wert = pd.Series(vol_naoh1), pd.Series(ph_wert1)
+    # vol_naoh, ph_wert = pd.Series(vol_naoh1), pd.Series(ph_wert1)
 
     # Berechnung des Startwerts für C --> mittelwert der x-Werte an der größten Steigung
     max_diff_index = np.argmax(np.diff(ph_wert))
@@ -45,7 +45,7 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
 
     # Definition der 7-Parameter-Logistischen Funktion (PL7)
     def seven_pl(x, A, D, C, B, G, F):
-        return D + (A - D) / ((1 + (((x / C) ** B)) ** G)) + (F * x)
+        return D + (A - D) / (1 + ((x / C) ** B) ** G) + (F * x)
 
     # Erste ableitung der 7-Parameter-Logistischen Funktion  (skaliert)
     def erst_abl(x, A, D, C, B, G, F):
@@ -119,12 +119,12 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
 
     # Hilfsfunktion f(x) = erst_abl(x) - 1
     def f(x):
-        return ((erst_abl(x, **result.best_values))) - 1
+        return (erst_abl(x, **result.best_values)) - 1
 
     # Nullstellen der Ableitung - 1 suchen im bereich
     def finde_x_bei_steigung_eins(bereich):
         res = root_scalar(
-            f, bracket=bereich, fprime=lambda x: (zwe_abl(x, **result.best_values))
+            f, bracket=bereich, fprime=lambda x: zwe_abl(x, **result.best_values)
         )  # sucht Nullstelle in Bereich 1
         return res.root if res.converged else None
 
@@ -152,15 +152,17 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
         ]
 
         # Mittlere Gerade
-        x_mittel, y_mittel = np.mean(x_steigung_eins), np.mean(
-            [p[1] for p in punkt_zu_steigung_eins]
+        x_mittel, y_mittel = (
+            np.mean(x_steigung_eins),
+            np.mean([p[1] for p in punkt_zu_steigung_eins]),
         )
         y_mittlere_tangente = tangente(x_tangentenwerte_scaled, x_mittel, y_mittel)
 
         def finde_aequivalenzpunkt(x_startwert):
             res = root_scalar(
-                lambda x: seven_pl(x, **result.best_values)
-                - tangente(x, x_mittel, y_mittel),
+                lambda x: (
+                    seven_pl(x, **result.best_values) - tangente(x, x_mittel, y_mittel)
+                ),
                 x0=x_startwert,
                 method="newton",
             )
@@ -339,5 +341,4 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
     ax1.tick_params(axis="both", colors=color)
     ax2.tick_params(axis="both", colors=color)
 
-    return (x_ph7,vol_nullstellen_zweiter_ableitung,aequivalenzpunkt[0])
-
+    return (x_ph7, vol_nullstellen_zweiter_ableitung, aequivalenzpunkt[0])

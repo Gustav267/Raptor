@@ -27,6 +27,7 @@ environment: str = "linux"
 
 This can be `linux`, `windows`, or `macos`."""
 
+
 def main():
     app = QApplication(sys.argv)
     # app.setStyle("Windows")

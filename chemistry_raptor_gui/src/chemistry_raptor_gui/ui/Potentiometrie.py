@@ -59,12 +59,19 @@ class PotentiometrieWindow(QWidget):
 
     def generate_plot(self):
         vol_naoh = [
-            x.volume for x in self.data if x.enabled #and (x.ph <= 4 or x.ph >= 10)
+            x.volume
+            for x in self.data
+            if x.enabled  # and (x.ph <= 4 or x.ph >= 10)
         ]
-        ph_wert = [x.ph for x in self.data if x.enabled] #and (x.ph <= 4 or x.ph >= 10)]
+        ph_wert = [
+            x.ph for x in self.data if x.enabled
+        ]  # and (x.ph <= 4 or x.ph >= 10)]
         self.logger.debug(vol_naoh)
         self.logger.debug(ph_wert)
 
-        create_plot(pd.Series(vol_naoh), pd.Series(ph_wert), self.plot_canvas.get_drawing_canvas())
+        create_plot(
+            pd.Series(vol_naoh),
+            pd.Series(ph_wert),
+            self.plot_canvas.get_drawing_canvas(),
+        )
         self.plot_canvas.draw_canvas()
-

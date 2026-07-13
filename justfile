@@ -2,6 +2,10 @@
 sync:
     uv sync --all-packages --locked --all-extras --dev
 
+# run formatting using ruff
+format:
+    uv run ruff format
+
 # clean build artifacts
 clean:
     rm -vrf build dist `find . -name '*.egg-info'` `find src -name '__pycache__'` `find chemistry_raptor_gui -name '__pycache__'`
