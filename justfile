@@ -53,3 +53,15 @@ macos_standalone:
     rm -rvf ./dist/RAPTOR ./dist/RAPTOR_macos_standalone.bin
     pyinstaller --onefile {{ pyinstaller_shared_args }}
     mv ./dist/RAPTOR ./dist/RAPTOR_macos_standalone.bin
+
+[group('addin')]
+addin_create:
+    rm -rvf ./dist/raptor.xlam
+    uv run xlwings quickstart --addin raptor
+    mv raptor/raptor.xlam ./dist/raptor.xlam
+    rm -rvf raptor
+    @echo "Created addin at ./dist/raptor.xlam, please open in Excel and continue"
+
+[group('addin')]
+addin_install path='./dist/raptor.xlam':
+    uv run xlwings addin install --file {{path}}

@@ -1,7 +1,6 @@
 # Download .whl/.xlam
 Write-Output "Lade RAPTOR Dateien herunter..."
-$repo = "Gustav267/Raptor"
-$release = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/latest"
+$release = Invoke-RestMethod -Uri "https://api.github.com/repos/Gustav267/Raptor/releases/latest"
 $downloadDir = "$env:USERPROFILE\Downloads\Raptor"
 New-Item -ItemType Directory -Force -Path $downloadDir | Out-Null
 
@@ -22,4 +21,6 @@ Write-Output "Installiere Python Pakete..."
 
 # Install .xlam add-in using xlwings
 Write-Output "Installiere Excel Add-In..."
-& python -m xlwings addin install --path $xlamFile
+$pythonInstallDir = & python -c "import sys; print(sys.prefix)"
+$xlwings = "$pythonInstallDir\Scripts\xlwings.exe"
+& $xlwings addin install --path $xlamFile
