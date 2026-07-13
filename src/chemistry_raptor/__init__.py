@@ -31,6 +31,12 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
 
     vol_max, vol_min = max(vol_naoh), min(vol_naoh)
 
+    # erst_abl/zwe_abl teilen durch x, daher führt x=0 (z.B. wenn die Titration
+    # bei 0 ml NaOH beginnt) zu einem ZeroDivisionError bei der Nullstellensuche.
+    # Kleine Sicherheitsmarge oberhalb von 0, falls vol_min <= 0 ist.
+    epsilon = (vol_max - vol_min) * 1e-6 if vol_max > vol_min else 1e-6
+    vol_min_safe = vol_min if vol_min > 0 else epsilon
+
     # Funktion zur Rücktransformation der skalierten x-Werte
     def rescale_x(x):
         return x
@@ -113,7 +119,7 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
     # Bereiche für die Suche nach Steigung 1
     # bereiche = [[vol_min, Aep_gesch], [Aep_gesch, vol_max]]
     bereiche_scaled = [
-        [vol_min, C_start],
+        [vol_min_safe, C_start],
         [C_start, vol_max],
     ]  # Vermeidet Probleme bei 0
 
@@ -192,7 +198,6 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
     x_scaled_nullstellen_zweiter_ableitung = root_scalar(
         lambda x: zwe_abl(x, **result.best_values),
         x0=C_start,
-        bracket=x_steigung_eins[0:2],
         method="newton",
     ).root
     vol_nullstellen_zweiter_ableitung = rescale_x(
@@ -207,7 +212,7 @@ def create_plot(vol_naoh: pd.Series, ph_wert: pd.Series, ax1: Axes):
 
     color = "#203864"
     # Fit-Kurve berechnen für grafische Darstellung
-    x_linespace_scaled = np.linspace(vol_min, vol_max, num=200)
+    x_linespace_scaled = np.linspace(vol_min_safe, vol_max, num=200)
     ph_zu_linespace = seven_pl(x_linespace_scaled, **result.best_values)
     x_linespace_ml = rescale_x(x_linespace_scaled)
     ph_fit_deriv = erst_abl(x_linespace_scaled, **result.best_values)
