@@ -1,19 +1,27 @@
 # install dependencies into .venv using uv
+[group('dev')]
 sync:
     uv sync --all-packages --locked --all-extras --dev
 
 # run formatting using ruff
+[group('dev')]
 format:
     uv run ruff format
 
-# clean build artifacts
-clean:
-    rm -vrf build dist `find . -name '*.egg-info'` `find src -name '__pycache__'` `find chemistry_raptor_gui -name '__pycache__'`
+# run tests
+[group('dev')]
+test:
+    uv run pytest
 
 # run the GUI frontend
 [group('run')]
 gui:
     uv run chemistry_raptor
+
+# clean build artifacts
+[group('build')]
+clean:
+    rm -vrf build dist `find . -name '*.egg-info'` `find src -name '__pycache__'` `find chemistry_raptor_gui -name '__pycache__'`
 
 # builds all packages as .whl
 [group('build')]
