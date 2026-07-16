@@ -24,3 +24,4 @@ Python 3.14.6
 ```powershell
 irm https://raw.githubusercontent.com/Gustav267/Raptor/main/InstallRAPTOR.ps1 | iex
 ```
+
