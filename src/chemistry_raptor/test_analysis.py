@@ -9,7 +9,8 @@ from lmfit.model import ModelResult
 
 from chemistry_raptor import fitting, aep_from_tangentenverfahren, aep_from_ph7
 
-TESTDATA_FILENAME = os.path.join(os.path.dirname(__file__), 'test_data.json')
+TESTDATA_FILENAME = os.path.join(os.path.dirname(__file__), "test_data.json")
+
 
 @dataclass(frozen=True)
 class AnalysisData:
@@ -26,14 +27,16 @@ class AnalysisData:
 
 class CalculationTests(unittest.TestCase):
     def setUp(self):
-        with open(TESTDATA_FILENAME, 'r') as f:
+        with open(TESTDATA_FILENAME, "r") as f:
             self.data: list[AnalysisData] = []
-            
+
             for datapoint in json.load(f):
-                vol_naoh: float = datapoint['naoh']
-                ph_wert: float = datapoint['ph']
+                vol_naoh: float = datapoint["naoh"]
+                ph_wert: float = datapoint["ph"]
                 if len(vol_naoh) != len(ph_wert):
-                    raise ValueError("Number of vol_naoh does not match number of ph_wert")
+                    raise ValueError(
+                        "Number of vol_naoh does not match number of ph_wert"
+                    )
                 if len(vol_naoh) <= 8 or len(ph_wert) <= 8:
                     raise ValueError("Not enough data points provided")
 
@@ -54,30 +57,41 @@ class CalculationTests(unittest.TestCase):
                 # best_values: beste Parameterwerte für die 7-Parameter-Logistische Funktion
                 # aep_approx: Startwert für C
                 # r_squared: Bestimmtheitsmaß (R^2)
-                best_values, aep_approx, r_squared = fitting.fit(vol_naoh, ph_wert, aep_approx)
-                self.data.append(AnalysisData(
-                    vol_naoh=vol_naoh,
-                    ph_wert=ph_wert,
-                    max_diff_index=max_diff_index,
-                    aep_approx=aep_approx,
-                    vol_max=vol_max,
-                    vol_min=vol_min,
-                    epsilon=epsilon,
-                    vol_min_safe=vol_min_safe,
-                    best_values=best_values
-                ))
+                best_values, aep_approx, r_squared = fitting.fit(
+                    vol_naoh, ph_wert, aep_approx
+                )
+                self.data.append(
+                    AnalysisData(
+                        vol_naoh=vol_naoh,
+                        ph_wert=ph_wert,
+                        max_diff_index=max_diff_index,
+                        aep_approx=aep_approx,
+                        vol_max=vol_max,
+                        vol_min=vol_min,
+                        epsilon=epsilon,
+                        vol_min_safe=vol_min_safe,
+                        best_values=best_values,
+                    )
+                )
 
     def test_tangentenverfahren(self):
         self.assertGreater(len(self.data), 0)
         for dp in self.data:
-            self.assertIsNotNone(aep_from_tangentenverfahren(
-                dp.aep_approx, dp.best_values, dp.vol_max, dp.vol_min, dp.vol_min_safe
-            ))
+            self.assertIsNotNone(
+                aep_from_tangentenverfahren(
+                    dp.aep_approx,
+                    dp.best_values,
+                    dp.vol_max,
+                    dp.vol_min,
+                    dp.vol_min_safe,
+                )
+            )
 
     def test_ph7(self):
         self.assertGreater(len(self.data), 0)
         for dp in self.data:
             self.assertIsNotNone(aep_from_ph7(dp.best_values, 7, dp.aep_approx))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -41,9 +41,9 @@ def main():
     )
 
     logger = logging.getLogger(__name__)
-    logger.info("Starting Potentiometrie GUI version %s" % "v0.0.1")
+    logger.info("Starting Potentiometrie GUI version v%s" % __version__)
 
-    main_window = MainWindow()
+    main_window = MainWindow(__version__)
     main_window.show()
 
     try:

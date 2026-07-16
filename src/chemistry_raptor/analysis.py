@@ -33,10 +33,12 @@ def finde_x_bei_steigung_eins(bereich, best_values) -> float | None:
     )  # sucht Nullstelle in Bereich
     return float(res.root) if res.converged else None
 
+
 @dataclass
 class Tangentenverfahren:
     aequivalenzpunkt: tuple[float, float] | None
     x_steigung_eins: list[float] | None
+
 
 def aep_from_tangentenverfahren(
     aep_approx: float | int,

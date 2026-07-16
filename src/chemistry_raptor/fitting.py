@@ -41,6 +41,8 @@ def fit(
     info(f"Parameter C (Aep_gesch) bei: {param_c:.3f} ml")
 
     # Extract R² from the fit report and save it as a parameter
-    r_squared_from_report: float = result.rsquared if hasattr(result, "rsquared") else 0.0
+    r_squared_from_report: float = (
+        result.rsquared if hasattr(result, "rsquared") else 0.0
+    )
 
     return result.best_values, param_c, r_squared_from_report
